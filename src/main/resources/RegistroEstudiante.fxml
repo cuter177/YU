@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+
+<AnchorPane prefHeight="584.0" prefWidth="365.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegistroEstudianteController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#067ec4" height="197.0" layoutY="52.0" stroke="BLACK" strokeType="INSIDE" width="358.0" />
+      <Label layoutX="117.0" layoutY="14.0" prefHeight="38.0" prefWidth="130.0" text="Registro de Estudiantes" />
+      <Label layoutX="14.0" layoutY="70.0" text="Nombre" />
+      <Label layoutX="14.0" layoutY="115.0" text="Matricula" />
+      <Label layoutX="14.0" layoutY="155.0" text="Edad" />
+      <TextField fx:id="txtNombre" layoutX="87.0" layoutY="66.0" prefHeight="26.0" prefWidth="262.0" />
+      <TextField fx:id="txtMatricula" layoutX="87.0" layoutY="110.0" prefHeight="26.0" prefWidth="262.0" />
+      <TextField fx:id="txtEdad" layoutX="87.0" layoutY="151.0" prefHeight="26.0" prefWidth="262.0" />
+      <TableView layoutY="250.0" onSort="#tblEstudiantes" prefHeight="294.0" prefWidth="366.0">
+        <columns>
+          <TableColumn fx:id="colNombre" prefWidth="75.0" text="Nombre" />
+          <TableColumn fx:id="colMatricula" prefWidth="75.0" text="Matricula" />
+            <TableColumn fx:id="colEdad" prefWidth="75.0" text="Edad" />
+            <TableColumn fx:id="ColPromedioG" prefWidth="75.0" text="Promedio G." />
+        </columns>
+      </TableView>
+      <Button layoutX="87.0" layoutY="197.0" mnemonicParsing="false" onAction="#GuardarEstudiante" text="Guardar" />
+      <Button layoutX="177.0" layoutY="197.0" mnemonicParsing="false" onAction="#ActualizarEstudiante" text="Actualizar" />
+      <Button layoutX="153.0" layoutY="544.0" mnemonicParsing="false" text="Eliminar" />
+   </children>
+</AnchorPane>
