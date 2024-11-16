@@ -15,6 +15,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import utils.Paths;
 
+import java.util.ArrayList;
+
 
 public class RegistroEstudianteController {
 
@@ -44,6 +46,8 @@ public class RegistroEstudianteController {
 
     @FXML
     private Label lblError;
+
+    private ArrayList<Estudiante> listaEstudiantes;
 
     @FXML
     void ActualizarEstudiante(ActionEvent event) {
@@ -107,6 +111,13 @@ public class RegistroEstudianteController {
 
     }
 
+    public ArrayList<Estudiante> getListaEstudiantes() {
+        return listaEstudiantes;
+    }
+
+    public void setListaEstudiantes(ArrayList<Estudiante> listaEstudiantes) {
+        this.listaEstudiantes = listaEstudiantes;
+    }
 }
 
 
