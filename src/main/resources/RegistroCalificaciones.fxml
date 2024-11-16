@@ -7,7 +7,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="478.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegistroCalificacionesController">
    <children>
       <Label layoutX="174.0" prefHeight="36.0" prefWidth="142.0" text="Registro de Calificaciones" textAlignment="CENTER" />
@@ -15,7 +14,7 @@
       <Label layoutX="69.0" layoutY="91.0" text="Calificación: " />
       <TextField fx:id="txtMateria" layoutX="146.0" layoutY="46.0" prefHeight="26.0" prefWidth="322.0" />
       <TextField fx:id="txtCalificacion" layoutX="146.0" layoutY="87.0" prefHeight="26.0" prefWidth="322.0" />
-      <TableView layoutX="110.0" layoutY="184.0" onSort="#tblCalificaciones" prefHeight="280.0" prefWidth="270.0">
+      <TableView fx:id="tblCalificaciones" layoutX="110.0" layoutY="184.0" prefHeight="280.0" prefWidth="270.0">
         <columns>
           <TableColumn fx:id="colMateria" prefWidth="75.0" text="Materia" />
           <TableColumn fx:id="colCalificacion" prefWidth="75.0" text="Calificacion" />

@@ -16,11 +16,17 @@ public class Estudiante {
         this.matricula = matricula;
     }
 
+    public Estudiante() {
+        this.calificaciones = calificaciones;
+    }
+
     public String getNombre() {
+
         return nombre;
     }
 
     public void setNombre(String nombre) {
+
         this.nombre = nombre;
     }
 
@@ -29,6 +35,7 @@ public class Estudiante {
     }
 
     public void setMatricula(String matricula) {
+
         this.matricula = matricula;
     }
 
@@ -36,15 +43,17 @@ public class Estudiante {
         return calificaciones;
     }
 
-    public void setCalificaciones(ArrayList<Calificaciones> calificaciones) {
-        this.calificaciones = calificaciones;
+    public void agregarCalificacion(Calificaciones calificacion) {
+        calificaciones.add(calificacion);
     }
 
     public int getEdad() {
+
         return edad;
     }
 
     public void setEdad(int edad) {
+
         this.edad = edad;
     }
 }

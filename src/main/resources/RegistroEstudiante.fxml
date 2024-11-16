@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 
-
 <AnchorPane prefHeight="584.0" prefWidth="365.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegistroEstudianteController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#067ec4" height="197.0" layoutY="52.0" stroke="BLACK" strokeType="INSIDE" width="358.0" />
@@ -19,7 +18,7 @@
       <TextField fx:id="txtNombre" layoutX="87.0" layoutY="66.0" prefHeight="26.0" prefWidth="262.0" />
       <TextField fx:id="txtMatricula" layoutX="87.0" layoutY="110.0" prefHeight="26.0" prefWidth="262.0" />
       <TextField fx:id="txtEdad" layoutX="87.0" layoutY="151.0" prefHeight="26.0" prefWidth="262.0" />
-      <TableView layoutY="250.0" onSort="#tblEstudiantes" prefHeight="294.0" prefWidth="366.0">
+      <TableView fx:id="tblEstudiantes" layoutY="250.0" prefHeight="294.0" prefWidth="366.0">
         <columns>
           <TableColumn fx:id="colNombre" prefWidth="75.0" text="Nombre" />
           <TableColumn fx:id="colMatricula" prefWidth="75.0" text="Matricula" />
@@ -30,5 +29,6 @@
       <Button layoutX="87.0" layoutY="197.0" mnemonicParsing="false" onAction="#GuardarEstudiante" text="Guardar" />
       <Button layoutX="177.0" layoutY="197.0" mnemonicParsing="false" onAction="#ActualizarEstudiante" text="Actualizar" />
       <Button layoutX="153.0" layoutY="544.0" mnemonicParsing="false" text="Eliminar" />
+      <Label fx:id="lblError" layoutX="26.0" layoutY="223.0" textFill="#dc0000" />
    </children>
 </AnchorPane>
