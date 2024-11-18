@@ -1,15 +1,19 @@
 package controllers;
 
+import Clases.Bandera;
 import Clases.Calificaciones;
 import Clases.Estudiante;
 import Excepciones.CampoVacioException;
 import Excepciones.DatoIncorrectoException;
+import Excepciones.DatoInvalidoException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -30,10 +34,20 @@ public class RegistroCalificacionesController {
     @FXML
     private TableView<Calificaciones> tblCalificaciones;
 
+    @FXML
+    private Label lblError;
+
     private Estudiante estudiante;
+    private Bandera bandera = new Bandera(true);
 
     @FXML
     void CerrarCal(ActionEvent event) {
+        Stage stage = (Stage) tblCalificaciones.getScene().getWindow();
+        // Cierra la ventana
+        stage.close();
+
+        bandera.setEstado(true);
+
 
     }
 
@@ -59,11 +73,19 @@ public class RegistroCalificacionesController {
             Calificaciones calificaciones = new Calificaciones();
             calificaciones.setMateria(txtMateria.getText());
             calificaciones.setCalificacion(Double.parseDouble(txtCalificacion.getText()));
+
             estudiante.agregarCalificacion(calificaciones);
             actualizarTabla();
             limpiarCampos();
-        }catch (CampoVacioException e){
-        }catch (DatoIncorrectoException e){
+        }
+        catch (CampoVacioException e){
+            lblError.setText(e.getMessage());
+        }
+        catch (DatoIncorrectoException e){
+            lblError.setText(e.getMessage());
+        }
+        catch (DatoInvalidoException e){
+            lblError.setText(e.getMessage());
         }
     }
 
@@ -77,15 +99,17 @@ public class RegistroCalificacionesController {
         if (txtMateria.getText().isEmpty() || txtCalificacion.getText().isEmpty()) {
             throw new CampoVacioException("Todos los campos deben estar llenos antes de guardar.");
         }
-    }
-
-    private void ValidarEntero(String dato, String campo){
         try{
-            Double.parseDouble(dato);
-        }catch(NumberFormatException e){
-            throw new DatoIncorrectoException("El campo" + campo +  "debe contener un numero entero valido. ");
+            double dato = Double.parseDouble(txtCalificacion.getText());
+            //nergacion, devuelve un true si dato es mayor que 10 y menor que 0
+            if (!(dato <= 10 && dato >= 0)){
+                throw new DatoInvalidoException("Numero debe ser mayor que 0 y menor o igual a 10 ");
+            }
+        }catch(NumberFormatException e) {
+            throw new DatoIncorrectoException("Ingrese una calificación valida :) ");
         }
     }
+
 
     public Estudiante getEstudiante() {
         return estudiante;
@@ -96,7 +120,6 @@ public class RegistroCalificacionesController {
         if (this.estudiante.getCalificaciones() == null) {
             this.estudiante.setCalificaciones(new ArrayList<>());
         }
-
     }
 
     private void limpiarCampos(){
@@ -104,9 +127,15 @@ public class RegistroCalificacionesController {
         txtMateria.setText("");
     }
 
+    public void setBandera(Bandera bandera) {
+        if (bandera == null) {
+            bandera.setEstado(true);
+        }
+        this.bandera = bandera;
+    }
+
     @FXML
     void initialize() {
-
         colCalificacion.setCellValueFactory(new PropertyValueFactory<>("calificacion"));
         colMateria.setCellValueFactory(new PropertyValueFactory<>("materia"));
     }

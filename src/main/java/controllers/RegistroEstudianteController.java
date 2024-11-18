@@ -1,7 +1,9 @@
 package controllers;
 
+import Clases.Bandera;
 import Clases.Calificaciones;
 import Clases.Estudiante;
+import Clases.ListaEstudiantes;
 import Excepciones.CampoVacioException;
 import Excepciones.DatoIncorrectoException;
 import javafx.event.ActionEvent;
@@ -13,10 +15,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import utils.Paths;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class RegistroEstudianteController {
@@ -34,7 +38,7 @@ public class RegistroEstudianteController {
     private TableColumn<Estudiante, String> colNombre;
 
     @FXML
-    private TableView<?> tblEstudiantes;
+    private TableView<Estudiante> tblEstudiantes;
 
     @FXML
     private TextField txtEdad;
@@ -48,7 +52,9 @@ public class RegistroEstudianteController {
     @FXML
     private Label lblError;
 
-    private ArrayList<Estudiante> listaEstudiantes;
+
+    private ListaEstudiantes listaEstudiantes;
+    private Bandera bandera;
 
     @FXML
     void ActualizarEstudiante(ActionEvent event) {
@@ -67,23 +73,11 @@ public class RegistroEstudianteController {
             estudiante.setNombre(txtNombre.getText());
             estudiante.setEdad(Integer.parseInt(txtEdad.getText()));
             lblError.setText("");
-
-
-            try {
-                // Cargar la ventana de registro de calificaciones
-                FXMLLoader loader = new FXMLLoader(getClass().getResource(Paths.CALIFICACIONES));
-                Parent root = loader.load();
-
-                // Crear una nueva ventana
-                Stage stage = new Stage();
-                stage.setTitle("Registro de Calificaciones");
-                RegistroCalificacionesController controller = loader.getController();
-                controller.setEstudiante(estudiante);
-                stage.setScene(new Scene(root));
-                stage.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            abrirVentana(estudiante);
+            //bandera = falso significa que la ventana ya se ha cerrado
+            //if(!bandera.isEstado()){
+                actualizarTabla();
+            //}
 
         } catch (CampoVacioException e) {
             lblError.setText(e.getMessage());
@@ -107,21 +101,56 @@ public class RegistroEstudianteController {
         }
     }
 
+    private void abrirVentana(Estudiante estudiante){
+        try {
+            // Cargar la ventana de registro de calificaciones
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(Paths.CALIFICACIONES));
+            Parent root = loader.load();
+
+            // Crear una nueva ventana
+            Stage stage = new Stage();
+            stage.setTitle("Registro de Calificaciones");
+            RegistroCalificacionesController controller = loader.getController();
+            controller.setEstudiante(estudiante);
+            stage.setScene(new Scene(root));
+            stage.show();
+            //stage.onCloseRequestProperty()
+            // Detectar cierre de la ventana para apagar la bandera
+            stage.setOnCloseRequest(e -> bandera.setEstado(false));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void actualizarTabla() {
+        tblEstudiantes.getItems().clear();
+        tblEstudiantes.getItems().addAll(listaEstudiantes.getListaEstudiantes());
+        tblEstudiantes.refresh();
+    }
+
 
     @FXML
     void initialize() {
-
+        colEdad.setCellValueFactory(new PropertyValueFactory<>("edad"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colMatricula.setCellValueFactory(new PropertyValueFactory<>("matricula"));
+        ColPromedioG.setCellValueFactory(new PropertyValueFactory<>("promedioG"));
     }
 
-    public ArrayList<Estudiante> getListaEstudiantes() {
+    public ListaEstudiantes getListaEstudiantes() {
         return listaEstudiantes;
     }
 
-    public void setListaEstudiantes(ArrayList<Estudiante> listaEstudiantes) {
+    public void setListaEstudiantes(ListaEstudiantes listaEstudiantes) {
         this.listaEstudiantes = listaEstudiantes;
     }
 
-
+    public void setBandera(Bandera bandera) {
+        if (bandera == null) {
+            bandera.setEstado(true);
+        }
+        this.bandera = bandera;
+    }
 }
 
 
