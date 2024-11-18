@@ -45,10 +45,6 @@ public class RegistroCalificacionesController {
         Stage stage = (Stage) tblCalificaciones.getScene().getWindow();
         // Cierra la ventana
         stage.close();
-
-        bandera.setEstado(true);
-
-
     }
 
     @FXML

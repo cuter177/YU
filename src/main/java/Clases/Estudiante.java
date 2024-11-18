@@ -8,25 +8,24 @@ public class Estudiante {
     private String matricula;
     private int edad;
     private ArrayList<Calificaciones> calificaciones;
+    private double promedioG;
 
     public Estudiante(String nombre, int edad, String matricula) {
         this.nombre = nombre;
-        calificaciones = new ArrayList<>();
         this.edad = edad;
         this.matricula = matricula;
+        this.calificaciones = new ArrayList<>();
     }
 
     public Estudiante() {
-        this.calificaciones = calificaciones;
+        this.calificaciones = new ArrayList<>();
     }
 
     public String getNombre() {
-
         return nombre;
     }
 
     public void setNombre(String nombre) {
-
         this.nombre = nombre;
     }
 
@@ -35,7 +34,6 @@ public class Estudiante {
     }
 
     public void setMatricula(String matricula) {
-
         this.matricula = matricula;
     }
 
@@ -48,12 +46,10 @@ public class Estudiante {
     }
 
     public int getEdad() {
-
         return edad;
     }
 
     public void setEdad(int edad) {
-
         this.edad = edad;
     }
 
@@ -63,5 +59,26 @@ public class Estudiante {
 
     public void eliminarCal(Calificaciones calificacion) {
         calificaciones.remove(calificacion);
+    }
+
+    public double getPromedioG() {
+        return promedioG;
+    }
+
+    public void setPromedioG(double promedioG) {
+        this.promedioG = promedioG;
+    }
+
+    public void calcularPromedio() {
+        if (calificaciones == null || calificaciones.isEmpty()) {
+            this.promedioG = 0;
+        } else {
+            double suma = 0;
+            for (Calificaciones calificacion : calificaciones) {
+                suma += calificacion.getCalificacion();
+            }
+            this.promedioG = suma / calificaciones.size();
+        }
+        System.out.println("Promedio actualizado a: " + this.promedioG);
     }
 }

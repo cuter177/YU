@@ -1,24 +1,25 @@
 package Clases;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListaEstudiantes {
-
-    private ArrayList<Estudiante> listaEstudiantes;
+    private List<Estudiante> listaEstudiantes;
 
     public ListaEstudiantes() {
-        listaEstudiantes = new ArrayList();
+        listaEstudiantes = new ArrayList<>();
+    }
+
+    public void setListaEstudiantes(List<Estudiante> listaEstudiantes) {
+        this.listaEstudiantes = listaEstudiantes;
     }
 
     public void agregarEstudiante(Estudiante estudiante) {
-        this.listaEstudiantes.add(estudiante);
+        listaEstudiantes.add(estudiante);
     }
 
-    public ArrayList<Estudiante> getListaEstudiantes() {
+    public List<Estudiante> getListaEstudiantes() {
         return listaEstudiantes;
     }
-
-    public void setListaEstudiantes(ArrayList<Estudiante> listaEstudiantes) {
-        this.listaEstudiantes = listaEstudiantes;
-    }
 }
+

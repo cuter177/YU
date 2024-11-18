@@ -22,7 +22,6 @@ import utils.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class RegistroEstudianteController {
 
     @FXML
@@ -52,20 +51,17 @@ public class RegistroEstudianteController {
     @FXML
     private Label lblError;
 
-
     private ListaEstudiantes listaEstudiantes;
     private Bandera bandera;
 
     @FXML
     void ActualizarEstudiante(ActionEvent event) {
-
+        // Implementar lógica de actualización si es necesario
     }
 
     @FXML
     void GuardarEstudiante(ActionEvent event) {
-
         try {
-
             validarCampos();
             ValidarEntero(txtEdad.getText());
             Estudiante estudiante = new Estudiante();
@@ -73,18 +69,18 @@ public class RegistroEstudianteController {
             estudiante.setNombre(txtNombre.getText());
             estudiante.setEdad(Integer.parseInt(txtEdad.getText()));
             lblError.setText("");
+
+            // Agregar el estudiante a la lista antes de abrir la nueva ventana
+            listaEstudiantes.agregarEstudiante(estudiante);
+
             abrirVentana(estudiante);
-            //bandera = falso significa que la ventana ya se ha cerrado
-            //if(!bandera.isEstado()){
-                actualizarTabla();
-            //}
+            limpiarCampos();
 
         } catch (CampoVacioException e) {
             lblError.setText(e.getMessage());
         } catch (DatoIncorrectoException e) {
             lblError.setText(e.getMessage());
         }
-
     }
 
     private void validarCampos() throws CampoVacioException {
@@ -93,52 +89,65 @@ public class RegistroEstudianteController {
         }
     }
 
-    private void ValidarEntero(String dato){
-        try{
+    private void ValidarEntero(String dato) {
+        try {
             Integer.parseInt(dato);
-        }catch(NumberFormatException e){
-            throw new DatoIncorrectoException("Error. Favor de colocar una edad válida. ");
+        } catch (NumberFormatException e) {
+            throw new DatoIncorrectoException("Error. Favor de colocar una edad válida.");
         }
     }
 
-    private void abrirVentana(Estudiante estudiante){
+    private void abrirVentana(Estudiante estudiante) {
         try {
             // Cargar la ventana de registro de calificaciones
             FXMLLoader loader = new FXMLLoader(getClass().getResource(Paths.CALIFICACIONES));
             Parent root = loader.load();
 
+            // Obtener el controlador de la ventana secundaria
+            RegistroCalificacionesController controller = loader.getController();
+            controller.setEstudiante(estudiante);
+
             // Crear una nueva ventana
             Stage stage = new Stage();
             stage.setTitle("Registro de Calificaciones");
-            RegistroCalificacionesController controller = loader.getController();
-            controller.setEstudiante(estudiante);
             stage.setScene(new Scene(root));
             stage.show();
-            //stage.onCloseRequestProperty()
-            // Detectar cierre de la ventana para apagar la bandera
-            stage.setOnCloseRequest(e -> bandera.setEstado(false));
+
+            // Actualizar la tabla cuando se cierre la ventana secundaria
+            stage.setOnHidden(event -> {
+                estudiante.calcularPromedio();
+                actualizarTabla();
+            });
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void actualizarTabla() {
+        System.out.println("Actualizando tabla...");
         tblEstudiantes.getItems().clear();
-        tblEstudiantes.getItems().addAll(listaEstudiantes.getListaEstudiantes());
+        List<Estudiante> estudiantes = listaEstudiantes.getListaEstudiantes();
+        tblEstudiantes.getItems().addAll(estudiantes);
         tblEstudiantes.refresh();
     }
 
-
     @FXML
     void initialize() {
-        colEdad.setCellValueFactory(new PropertyValueFactory<>("edad"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colMatricula.setCellValueFactory(new PropertyValueFactory<>("matricula"));
+        colEdad.setCellValueFactory(new PropertyValueFactory<>("edad"));
         ColPromedioG.setCellValueFactory(new PropertyValueFactory<>("promedioG"));
     }
 
     public ListaEstudiantes getListaEstudiantes() {
         return listaEstudiantes;
+    }
+
+    public void limpiarCampos(){
+        txtEdad.clear();
+        txtMatricula.clear();
+        txtNombre.clear();
     }
 
     public void setListaEstudiantes(ListaEstudiantes listaEstudiantes) {
@@ -152,5 +161,3 @@ public class RegistroEstudianteController {
         this.bandera = bandera;
     }
 }
-
-

@@ -23,6 +23,6 @@
       <Button layoutX="136.0" layoutY="134.0" mnemonicParsing="false" onAction="#GuardarCal" text="Guardar" />
       <Button layoutX="257.0" layoutY="134.0" mnemonicParsing="false" onAction="#EliminarCal" text="Eliminar" />
       <Button layoutX="380.0" layoutY="134.0" mnemonicParsing="false" onAction="#CerrarCal" text="Cerrar" />
-      <Label fx:id="lblError" layoutX="55.0" layoutY="160.0" prefHeight="18.0" prefWidth="367.0" text="Label" />
+      <Label fx:id="lblError" layoutX="55.0" layoutY="160.0" prefHeight="18.0" prefWidth="367.0" textFill="#ef0909" />
    </children>
 </AnchorPane>

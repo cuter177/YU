@@ -17,7 +17,7 @@ import java.util.List;
 
 public class App  extends Application {
 
-    ListaEstudiantes listaEstudiantes = new ListaEstudiantes();
+
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -26,9 +26,8 @@ public class App  extends Application {
         AnchorPane pane  = fxmlLoader.load();
         Bandera bandera = new Bandera(true);
 
-
         RegistroEstudianteController controller = fxmlLoader.getController();
-        controller.setListaEstudiantes(listaEstudiantes);
+        controller.setListaEstudiantes(new ListaEstudiantes());
         controller.setBandera(bandera);
         Scene scene = new Scene(pane);
         stage.setScene(scene);
