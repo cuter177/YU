@@ -56,4 +56,12 @@ public class Estudiante {
 
         this.edad = edad;
     }
+
+    public void setCalificaciones(ArrayList<Calificaciones> calificaciones) {
+        this.calificaciones = calificaciones;
+    }
+
+    public void eliminarCal(Calificaciones calificacion) {
+        calificaciones.remove(calificacion);
+    }
 }

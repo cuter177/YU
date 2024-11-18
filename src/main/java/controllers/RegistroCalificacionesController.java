@@ -9,6 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.util.ArrayList;
 
 public class RegistroCalificacionesController {
 
@@ -36,11 +39,21 @@ public class RegistroCalificacionesController {
 
     @FXML
     void EliminarCal(ActionEvent event) {
+        EliminaCal();
+    }
 
+    private void EliminaCal() {
+        Calificaciones cal = tblCalificaciones.getSelectionModel().getSelectedItem();
+        estudiante.eliminarCal(cal);
+        actualizarTabla();
     }
 
     @FXML
     void GuardarCal(ActionEvent event) {
+        GuardarCal();
+    }
+
+    private void GuardarCal(){
         try {
             validarCampos();
             Calificaciones calificaciones = new Calificaciones();
@@ -48,6 +61,7 @@ public class RegistroCalificacionesController {
             calificaciones.setCalificacion(Double.parseDouble(txtCalificacion.getText()));
             estudiante.agregarCalificacion(calificaciones);
             actualizarTabla();
+            limpiarCampos();
         }catch (CampoVacioException e){
         }catch (DatoIncorrectoException e){
         }
@@ -79,11 +93,22 @@ public class RegistroCalificacionesController {
 
     public void setEstudiante(Estudiante estudiante) {
         this.estudiante = estudiante;
+        if (this.estudiante.getCalificaciones() == null) {
+            this.estudiante.setCalificaciones(new ArrayList<>());
+        }
+
+    }
+
+    private void limpiarCampos(){
+        txtCalificacion.setText("");
+        txtMateria.setText("");
     }
 
     @FXML
     void initialize() {
 
+        colCalificacion.setCellValueFactory(new PropertyValueFactory<>("calificacion"));
+        colMateria.setCellValueFactory(new PropertyValueFactory<>("materia"));
     }
 
 }

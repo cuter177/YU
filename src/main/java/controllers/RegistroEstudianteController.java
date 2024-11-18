@@ -1,5 +1,6 @@
 package controllers;
 
+import Clases.Calificaciones;
 import Clases.Estudiante;
 import Excepciones.CampoVacioException;
 import Excepciones.DatoIncorrectoException;
@@ -67,6 +68,7 @@ public class RegistroEstudianteController {
             estudiante.setEdad(Integer.parseInt(txtEdad.getText()));
             lblError.setText("");
 
+
             try {
                 // Cargar la ventana de registro de calificaciones
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(Paths.CALIFICACIONES));
@@ -118,6 +120,8 @@ public class RegistroEstudianteController {
     public void setListaEstudiantes(ArrayList<Estudiante> listaEstudiantes) {
         this.listaEstudiantes = listaEstudiantes;
     }
+
+
 }
 
 
