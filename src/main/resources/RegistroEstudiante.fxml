@@ -26,9 +26,11 @@
             <TableColumn fx:id="ColPromedioG" prefWidth="75.0" text="Promedio G." />
         </columns>
       </TableView>
-      <Button layoutX="87.0" layoutY="197.0" mnemonicParsing="false" onAction="#GuardarEstudiante" text="Guardar" />
-      <Button layoutX="177.0" layoutY="197.0" mnemonicParsing="false" onAction="#ActualizarEstudiante" text="Actualizar" />
+      <Button layoutX="26.0" layoutY="197.0" mnemonicParsing="false" onAction="#GuardarEstudiante" text="Guardar" />
+      <Button layoutX="102.0" layoutY="197.0" mnemonicParsing="false" onAction="#ActualizarEstudiante" text="Actualizar" />
       <Button layoutX="153.0" layoutY="544.0" mnemonicParsing="false" text="Eliminar" />
       <Label fx:id="lblError" layoutX="26.0" layoutY="223.0" textFill="#dc0000" />
+      <Button layoutX="187.0" layoutY="197.0" mnemonicParsing="false" onAction="#AdjuntarArchivo" text="Adjuntar" />
+      <Button layoutX="267.0" layoutY="197.0" mnemonicParsing="false" onAction="#GenerarArchivo" text="Generar" />
    </children>
 </AnchorPane>

@@ -28,7 +28,6 @@ public class App  extends Application {
 
         RegistroEstudianteController controller = fxmlLoader.getController();
         controller.setListaEstudiantes(new ListaEstudiantes());
-        controller.setBandera(bandera);
         Scene scene = new Scene(pane);
         stage.setScene(scene);
         stage.show();

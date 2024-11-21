@@ -1,9 +1,6 @@
 package controllers;
 
-import Clases.Bandera;
-import Clases.Calificaciones;
-import Clases.Estudiante;
-import Clases.ListaEstudiantes;
+import Clases.*;
 import Excepciones.CampoVacioException;
 import Excepciones.DatoIncorrectoException;
 import javafx.event.ActionEvent;
@@ -16,9 +13,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import utils.Paths;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,11 +52,60 @@ public class RegistroEstudianteController {
     private Label lblError;
 
     private ListaEstudiantes listaEstudiantes;
-    private Bandera bandera;
 
     @FXML
     void ActualizarEstudiante(ActionEvent event) {
         // Implementar lógica de actualización si es necesario
+    }
+
+    @FXML
+    void AdjuntarArchivo(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar archivo de estudiantes");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Archivos de texto", "*.txt")
+        );
+
+        Stage stage = (Stage) tblEstudiantes.getScene().getWindow();
+        File archivoSeleccionado = fileChooser.showOpenDialog(stage);
+
+        if (archivoSeleccionado != null) {
+            try {
+                // Leer estudiantes desde el archivo
+                ListaEstudiantes estudiantesDesdeArchivo = Archivo.leerArchivo(archivoSeleccionado.getAbsolutePath());
+
+                // Agregar los estudiantes cargados a la lista actual
+                listaEstudiantes.getListaEstudiantes().addAll(estudiantesDesdeArchivo.getListaEstudiantes());
+
+                // Actualizar la tabla
+                actualizarTabla();
+            } catch (Exception e) {
+                lblError.setText("Error al cargar el archivo: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
+    void GenerarArchivo(ActionEvent event) {
+        if (!tblEstudiantes.getItems().isEmpty()) {
+            try {
+                // Ruta completa al archivo
+                String rutaArchivo = "C:\\Users\\Pop90\\OneDrive - Benemérita Universidad Autónoma de Puebla\\Universidad\\Tercer Semestre\\Programación ll\\Proyecto\\Estudiantes.txt";
+
+                // Guardar la lista de estudiantes en el archivo
+                Archivo.guardarArchivo(rutaArchivo, listaEstudiantes);
+
+                // Mensaje de éxito
+                System.out.println("Archivo generado exitosamente en: " + rutaArchivo);
+            } catch (IOException e) {
+                // Manejo de errores
+                System.err.println("Error al guardar el archivo: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("La tabla está vacía. No se puede generar el archivo.");
+        }
     }
 
     @FXML
@@ -154,10 +203,4 @@ public class RegistroEstudianteController {
         this.listaEstudiantes = listaEstudiantes;
     }
 
-    public void setBandera(Bandera bandera) {
-        if (bandera == null) {
-            bandera.setEstado(true);
-        }
-        this.bandera = bandera;
-    }
 }
