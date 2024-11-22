@@ -21,5 +21,24 @@ public class ListaEstudiantes {
     public List<Estudiante> getListaEstudiantes() {
         return listaEstudiantes;
     }
+
+    public void eliminarCal(Estudiante est) {
+        listaEstudiantes.remove(est);
+    }
+
+    public void actualizarEstudiante(Estudiante estudiante) {
+        for(Estudiante aux:listaEstudiantes){
+
+            if(aux.getMatricula().equals(estudiante.getMatricula())){
+
+                aux.setNombre(estudiante.getNombre());
+                aux.setEdad(estudiante.getEdad());
+
+
+
+            }
+
+        }
+    }
 }
 
