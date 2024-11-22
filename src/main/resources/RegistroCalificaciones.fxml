@@ -20,9 +20,11 @@
           <TableColumn fx:id="colCalificacion" prefWidth="75.0" text="Calificacion" />
         </columns>
       </TableView>
-      <Button layoutX="136.0" layoutY="134.0" mnemonicParsing="false" onAction="#GuardarCal" text="Guardar" />
+      <Button layoutX="105.0" layoutY="134.0" mnemonicParsing="false" onAction="#GuardarCal" text="Guardar" />
       <Button layoutX="257.0" layoutY="134.0" mnemonicParsing="false" onAction="#EliminarCal" text="Eliminar" />
-      <Button layoutX="380.0" layoutY="134.0" mnemonicParsing="false" onAction="#CerrarCal" text="Cerrar" />
+      <Button layoutX="331.0" layoutY="134.0" mnemonicParsing="false" onAction="#CerrarCal" text="Cerrar" />
       <Label fx:id="lblError" layoutX="55.0" layoutY="160.0" prefHeight="18.0" prefWidth="367.0" textFill="#ef0909" />
+      <Button layoutX="174.0" layoutY="134.0" mnemonicParsing="false" onAction="#ActualizarCal" text="Actualizar" />
+      <Button layoutX="396.0" layoutY="134.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar" />
    </children>
 </AnchorPane>

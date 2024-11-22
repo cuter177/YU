@@ -6,6 +6,7 @@ import Clases.Estudiante;
 import Excepciones.CampoVacioException;
 import Excepciones.DatoIncorrectoException;
 import Excepciones.DatoInvalidoException;
+import Excepciones.NoSeleccionException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -15,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import javax.management.StringValueExp;
 import java.util.ArrayList;
 
 public class RegistroCalificacionesController {
@@ -39,6 +41,30 @@ public class RegistroCalificacionesController {
 
     private Estudiante estudiante;
     private Bandera bandera = new Bandera(true);
+
+    @FXML
+    void ActualizarCal(ActionEvent event) {
+        try{
+            Calificaciones calificaciones = tblCalificaciones.getSelectionModel().getSelectedItem();
+            if (calificaciones == null) {
+                lblError.setText("No ha seleccionado ninguna calificacion :( ");
+                return;
+            }
+            lblError.setText("");
+            calificaciones.setCalificacion(Double.parseDouble(txtCalificacion.getText()));
+            calificaciones.setMateria(txtMateria.getText());
+            validarCampos();
+            limpiarCampos();
+            actualizarTabla();
+
+        }catch (NoSeleccionException e){
+            lblError.setText("No ha seleccionado ninguna calificacion :( ");
+        } catch (CampoVacioException e) {
+            lblError.setText(e.getMessage());
+        } catch (DatoIncorrectoException e) {
+            lblError.setText(e.getMessage());
+        }
+    }
 
     @FXML
     void CerrarCal(ActionEvent event) {
@@ -116,6 +142,7 @@ public class RegistroCalificacionesController {
         if (this.estudiante.getCalificaciones() == null) {
             this.estudiante.setCalificaciones(new ArrayList<>());
         }
+        actualizarTabla();
     }
 
     private void limpiarCampos(){
@@ -134,6 +161,27 @@ public class RegistroCalificacionesController {
     void initialize() {
         colCalificacion.setCellValueFactory(new PropertyValueFactory<>("calificacion"));
         colMateria.setCellValueFactory(new PropertyValueFactory<>("materia"));
+        // Asegurar de que estudiante no sea null antes de acceder a sus calificaciones
+        if (estudiante != null) {
+            actualizarTabla();
+        }
+
+        tblCalificaciones.setOnMouseClicked(event -> {
+            if(tblCalificaciones.getSelectionModel().getSelectedItem() != null){
+                cargarCampos();
+            }
+        });
+    }
+
+    private void cargarCampos() {
+        Calificaciones cal = tblCalificaciones.getSelectionModel().getSelectedItem();
+        txtCalificacion.setText(String.valueOf(cal.getCalificacion()));
+        txtMateria.setText(cal.getMateria());
+    }
+
+    @FXML
+    void limpiarCampos(ActionEvent event) {
+        limpiarCampos();
     }
 
 }

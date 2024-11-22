@@ -66,6 +66,8 @@ public class Archivo {
 
                 // Calcular el promedio general del estudiante
                 estudiante.calcularPromedio();
+                estudiante.calcularMediana();
+                estudiante.calcularDesviacionE();
 
                 // Agregar estudiante a la lista
                 listaEstudiantes.agregarEstudiante(estudiante);
@@ -91,6 +93,9 @@ public class Archivo {
                 for (Calificaciones calif : estudiante.getCalificaciones()) {
                     bw.write("[" + calif.getMateria() + ", " + calif.getCalificacion() + "] ");
                 }
+                bw.write("[Promedio Gerneral: " + estudiante.getPromedioG() + "]");
+                bw.write("[Mediana: " + estudiante.getMediana() + "]");
+                bw.write("[Desviacion Estandar: " + estudiante.getDesviacionE() + "]");
 
                 bw.newLine(); // Salto de línea para el próximo estudiante
             }

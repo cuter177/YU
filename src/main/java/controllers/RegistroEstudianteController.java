@@ -3,6 +3,7 @@ package controllers;
 import Clases.*;
 import Excepciones.CampoVacioException;
 import Excepciones.DatoIncorrectoException;
+import Excepciones.NoSeleccionException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,6 +38,12 @@ public class RegistroEstudianteController {
     private TableColumn<Estudiante, String> colNombre;
 
     @FXML
+    private TableColumn<Estudiante, Double> colMediana;
+
+    @FXML
+    private TableColumn<Estudiante, Double> colDesviacion;
+
+    @FXML
     private TableView<Estudiante> tblEstudiantes;
 
     @FXML
@@ -55,7 +62,42 @@ public class RegistroEstudianteController {
 
     @FXML
     void ActualizarEstudiante(ActionEvent event) {
-        // Implementar lógica de actualización si es necesario
+        try {
+            // Verifica si hay un estudiante seleccionado
+            Estudiante estudiante = tblEstudiantes.getSelectionModel().getSelectedItem();
+            if (estudiante == null) {
+                lblError.setText("No ha seleccionado ningún estudiante :( ");
+                return; // DETENER LA EJECUCION SI NO HAY SELECCION
+            }
+            lblError.setText("");
+            estudiante.setNombre(txtNombre.getText());
+            estudiante.setMatricula(txtMatricula.getText());
+            estudiante.setEdad(Integer.parseInt(txtEdad.getText()));
+            validarCampos();
+            abrirVentana(estudiante);
+            limpiarCampos();
+            actualizarTabla();
+
+        } catch (NoSeleccionException e) {
+            // Muestra un mensaje en caso de excepciones personalizadas
+            lblError.setText("No ha seleccionado ningún estudiante :( ");
+        } catch (CampoVacioException e) {
+            lblError.setText(e.getMessage());
+        } catch (DatoIncorrectoException e) {
+            lblError.setText(e.getMessage());
+        }
+
+    }
+
+    @FXML
+    public void EliminarEstudiante(ActionEvent actionEvent) {
+        eliminarEstudiante();
+    }
+
+    private void eliminarEstudiante() {
+        Estudiante est = tblEstudiantes.getSelectionModel().getSelectedItem();
+        listaEstudiantes.eliminarCal(est);
+        actualizarTabla();
     }
 
     @FXML
@@ -91,7 +133,7 @@ public class RegistroEstudianteController {
         if (!tblEstudiantes.getItems().isEmpty()) {
             try {
                 // Ruta completa al archivo
-                String rutaArchivo = "C:\\Users\\Pop90\\OneDrive - Benemérita Universidad Autónoma de Puebla\\Universidad\\Tercer Semestre\\Programación ll\\Proyecto\\Estudiantes.txt";
+                String rutaArchivo = "C:\\Users\\Pop90\\OneDrive - Benemérita Universidad Autónoma de Puebla\\Universidad\\Tercer Semestre\\Programación ll\\Proyecto\\src\\main\\java\\ArchivosGenerados\\Estudiantes.txt";
 
                 // Guardar la lista de estudiantes en el archivo
                 Archivo.guardarArchivo(rutaArchivo, listaEstudiantes);
@@ -165,6 +207,8 @@ public class RegistroEstudianteController {
             // Actualizar la tabla cuando se cierre la ventana secundaria
             stage.setOnHidden(event -> {
                 estudiante.calcularPromedio();
+                estudiante.calcularMediana();
+                estudiante.calcularDesviacionE();
                 actualizarTabla();
             });
 
@@ -187,10 +231,32 @@ public class RegistroEstudianteController {
         colMatricula.setCellValueFactory(new PropertyValueFactory<>("matricula"));
         colEdad.setCellValueFactory(new PropertyValueFactory<>("edad"));
         ColPromedioG.setCellValueFactory(new PropertyValueFactory<>("promedioG"));
+        colMediana.setCellValueFactory(new PropertyValueFactory<>("mediana"));
+        colDesviacion.setCellValueFactory(new PropertyValueFactory<>("desviacionE"));
+
+        //carga los campos del estudiante seleccionado
+        tblEstudiantes.setOnMouseClicked(event -> {
+            if(tblEstudiantes.getSelectionModel().getSelectedItem() != null) {
+                cargarCampos();
+            }
+        });
+
+    }
+
+    private void cargarCampos() {
+        Estudiante estudiante = tblEstudiantes.getSelectionModel().getSelectedItem();
+        txtNombre.setText(estudiante.getNombre());
+        txtEdad.setText(String.valueOf(estudiante.getEdad()));
+        txtMatricula.setText(estudiante.getMatricula());
     }
 
     public ListaEstudiantes getListaEstudiantes() {
         return listaEstudiantes;
+    }
+
+    @FXML
+    void limpiarCampos(ActionEvent event) {
+        limpiarCampos();
     }
 
     public void limpiarCampos(){
@@ -202,5 +268,6 @@ public class RegistroEstudianteController {
     public void setListaEstudiantes(ListaEstudiantes listaEstudiantes) {
         this.listaEstudiantes = listaEstudiantes;
     }
+
 
 }
